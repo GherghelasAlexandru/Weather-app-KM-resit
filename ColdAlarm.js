@@ -1,9 +1,7 @@
-var temperatureAlert = 14;
-const api = "ea17eb5501a9d76bed7c68dd09c044dd"; 
-const cityName = 'Emmen';
-const alarmSounds = new Audio('/Resources/Sounds/AlarmSound.mp3');
+var temperatureAlert = 0;
 
-setInterval(AlarmTrigger(temperatureAlert),6000);
+
+setInterval(AlarmTrigger(temperatureAlert),60000);
 
 
 function AlarmTrigger ( temperatureAlert )
@@ -19,9 +17,8 @@ function AlarmTrigger ( temperatureAlert )
    {
        var temperature = parseInt(data.main['temp']);
        console.log(temperature);
-       if(temperature >= temperatureAlert)
+       if(temperature <= temperatureAlert)
        {
-          
            fireAlarm();
            console.log("Alert!");
        }
@@ -45,10 +42,8 @@ function alarmSound()
 
 function alarmNotification()
 {
-   var hotAlarm = document.querySelector('.hotAlarm');
-   hotAlarm.textContent = "Sir, please pay attention! Temperature will get higher than 25 C!";
+   var coldAlarm = document.querySelector('.coldAlarm');
+   coldAlarm.textContent = "Sir, please pay attention! Temperature will get lower than 0 C!";
 }
-
-
 
 
