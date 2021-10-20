@@ -1,6 +1,5 @@
-var temperatureAlert = 14;
-const api = "ea17eb5501a9d76bed7c68dd09c044dd"; 
-const cityName = 'Emmen';
+var temperatureAlert = 16;
+
 const alarmSounds = new Audio('/Resources/Sounds/AlarmSound.mp3');
 
 setInterval(AlarmTrigger(temperatureAlert),6000);
@@ -8,7 +7,7 @@ setInterval(AlarmTrigger(temperatureAlert),6000);
 
 function AlarmTrigger ( temperatureAlert )
 {
-    base = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api}&units=metric`;
+
     
     fetch(base)
    .then((response) => 

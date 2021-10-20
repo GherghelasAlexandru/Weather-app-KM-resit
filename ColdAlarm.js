@@ -6,8 +6,6 @@ setInterval(AlarmTrigger(temperatureAlert),60000);
 
 function AlarmTrigger ( temperatureAlert )
 {
-    base = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api}&units=metric`;
-    
     fetch(base)
    .then((response) => 
    {
@@ -17,7 +15,7 @@ function AlarmTrigger ( temperatureAlert )
    {
        var temperature = parseInt(data.main['temp']);
        console.log(temperature);
-       if(temperature <= temperatureAlert)
+       if(temperature < temperatureAlert)
        {
            fireAlarm();
            console.log("Alert!");
