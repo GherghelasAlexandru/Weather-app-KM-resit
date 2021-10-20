@@ -1,12 +1,10 @@
 // Openweathermap API private key
-const api = "ea17eb5501a9d76bed7c68dd09c044dd"; 
-const cityName = 'Emmen';
-const base = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api}&units=metric`;
+//const api = "ea17eb5501a9d76bed7c68dd09c044dd"; 
+//const cityName = 'Emmen';
+//const base = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api}&units=metric`;
 
 // constants required to store the lot and lat of the location  
 
-const lat = 0;
-const lon = 0;
 
 
 // load information when the page is loaded for the first time
@@ -15,6 +13,8 @@ window.onload = getWeatherInfo(cityName);
 
 // timer to make the call to the API every minute
 window.setInterval(getWeatherInfo(cityName),60000);
+setInterval(ColdAlarmTrigger,3000);
+setInterval(HotAlarmTrigger,6000);
 
 
 function getWeatherInfo(cityName)
@@ -33,10 +33,10 @@ function getWeatherInfo(cityName)
        var { sunrise , sunset} = data.sys;
 
         //Save lot and lat
-         //lat = parseInt(data.coord['lat']);
-        //lon = parseInt(data.coord['lom']);
-        console.log(parseInt(data.coord['lat']));
-        console.log(lon);
+         const lat = parseInt(data.coord['lat']);
+         const lon = parseInt(data.coord['lom']);
+        //console.log(parseInt(data.coord['lat']));
+        //console.log(lon);
 
        var iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
        var fahrenheit = (temp * 9) / 5 + 32;

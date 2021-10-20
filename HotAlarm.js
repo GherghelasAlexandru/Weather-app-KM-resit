@@ -1,11 +1,14 @@
-var temperatureAlert = 16;
+var hotAlert = 15;
 
 const alarmSounds = new Audio('/Resources/Sounds/AlarmSound.mp3');
+const api = "ea17eb5501a9d76bed7c68dd09c044dd"; 
+const cityName = 'Emmen';
+const base = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api}&units=metric`;
 
-setInterval(AlarmTrigger(temperatureAlert),6000);
 
 
-function AlarmTrigger ( temperatureAlert )
+
+function HotAlarmTrigger ( temperatureAlert )
 {
 
     
@@ -18,19 +21,19 @@ function AlarmTrigger ( temperatureAlert )
    {
        var temperature = parseInt(data.main['temp']);
        console.log(temperature);
-       if(temperature >= temperatureAlert)
+       if(temperature >= hotAlert)
        {
           
-           fireAlarm();
+           fireHotAlarm();
            console.log("Alert!");
        }
    });     
 }
 
 
-function fireAlarm ()
+function fireHotAlarm ()
 {
-   alarmNotification();
+   alarmHotNotification();
    alarmSound();
    
 }
@@ -42,7 +45,7 @@ function alarmSound()
 
 }
 
-function alarmNotification()
+function alarmHotNotification()
 {
    var hotAlarm = document.querySelector('.hotAlarm');
    hotAlarm.textContent = "Sir, please pay attention! Temperature will get higher than 25 C!";

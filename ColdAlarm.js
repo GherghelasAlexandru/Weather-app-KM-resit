@@ -1,10 +1,7 @@
-var temperatureAlert = 0;
+var coldAlert = 1;
 
 
-setInterval(AlarmTrigger(temperatureAlert),60000);
-
-
-function AlarmTrigger ( temperatureAlert )
+function ColdAlarmTrigger ()
 {
     fetch(base)
    .then((response) => 
@@ -15,18 +12,18 @@ function AlarmTrigger ( temperatureAlert )
    {
        var temperature = parseInt(data.main['temp']);
        console.log(temperature);
-       if(temperature < temperatureAlert)
+       if(temperature <= coldAlert)
        {
-           fireAlarm();
+           fireColdAlarm();
            console.log("Alert!");
        }
    });     
 }
 
 
-function fireAlarm ()
+function fireColdAlarm ()
 {
-   alarmNotification();
+   alarmColdNotification();
    alarmSound();
    
 }
@@ -38,7 +35,7 @@ function alarmSound()
 
 }
 
-function alarmNotification()
+function alarmColdNotification()
 {
    var coldAlarm = document.querySelector('.coldAlarm');
    coldAlarm.textContent = "Sir, please pay attention! Temperature will get lower than 0 C!";
