@@ -1,10 +1,33 @@
 // Require application dependencies
 // These are express, body-parser, and request
-
+const mysql = require("mysql");
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const app = express();
+
+var authenticateController=require('./controllers/authenticate-controller');
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
+app.post('/api/authenticate',authenticateController.authenticate);
+
+
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'weathersystem'
+});
+
+connection.connect(function (err) {
+  if (err) {
+      console.log('Error connecting to Db');
+      return;
+  }
+  console.log('Connection established');
+});
+module.exports = connection;
 
 // Configure dotenv package
 
@@ -21,12 +44,45 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
-function Function_B() {
-    return 2+2;
- }
+app.use(function(req,res,next){
+  req.connection = connection;
+  next();
+});
+
+app.get('/login', (req, res) => {
+  res.render('login.ejs')
+})
+
+app.post('/login',(req,res,next)=>{
+  res.render('login.ejs')
+})
+
+
+
+app.post('/auth', function(request, response) {
+	var username = request.body.username;
+  var password = request.body.password;
+	if (username && password) {
+		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+      //console.log(results.length);
+			if (results.length > 0) {
+        response.render('admin.ejs')
+        
+			} else {
+				response.send('Incorrect Username and/or Password!');
+			}			
+			response.end();
+		});
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
+});
+
 
 // Setup your default display on launch
 app.get("/", function (req, res) {
+
     // It will not fetch and display any data in the index page
 
      // Get city name passed in the form
