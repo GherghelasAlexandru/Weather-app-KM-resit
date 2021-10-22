@@ -1,3 +1,4 @@
+
 // Require application dependencies
 // These are express, body-parser, and request
 const mysql = require("mysql");
@@ -5,6 +6,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const app = express();
+var currentTemperature;
+
+const fs = require('fs');
 
 var authenticateController=require('./controllers/authenticate-controller');
 app.use(bodyParser.urlencoded({extended:true}));
@@ -36,7 +40,7 @@ require("dotenv").config();
 // Set up your OpenWeatherMap API_KEY
 
 const apiKey = `${process.env.API_KEY}`;
-
+var hotAlarmController = require('./Modules/HotAlarm.js');
 // Setup your express app and body-parser configurations
 // Setup your javascript template view engine
 // we will serve your static pages from the public directory, it will act as your root directory
@@ -83,13 +87,14 @@ app.post('/auth', function(request, response) {
 // Setup your default display on launch
 app.get("/", function (req, res) {
 
+ 
     // It will not fetch and display any data in the index page
 
      // Get city name passed in the form
 
     //let city = req.body.city;
     let city = 'Emmen';
- 
+    
     // Use that city name to fetch data
     // Use the API_KEY in the '.env' file
     let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
@@ -147,20 +152,32 @@ app.get("/", function (req, res) {
             main: main,
             error: null,
           });
+          currentTemperature = parseInt(weatherTemp);
         }
       }
   });
+console.log(currentTemperature);
+
+  if( hotAlarmController.hotAlarm(currentTemperature) == true)
+          {
+            res.writeHead(200, {'Content-Type': 'audio/mp3'});
+            let opStream = fs.createReadStream('/Users/Alex/Documents/GitHub/Weather-app-KM-resit/resources/alarm.mp3');
+       
+            opStream.pipe(res);
+            return;
+          }
     
   });
 
   // On a post request, the app shall data from OpenWeatherMap using the given arguments
-app.post('/', function(req, res) {
+app.post('/s', function(req, res) {
+
+ 
 
     // Get city name passed in the form
 
     let city = req.body.city;
     //let city = 'Amsterdam';
-
     // Use that city name to fetch data
     // Use the API_KEY in the '.env' file
     let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
@@ -195,7 +212,7 @@ app.post('/', function(req, res) {
                   visibility = `${weather.visibility}`,
                   main = `${weather.weather[0].main}`,
                   weatherFahrenheit;
-                weatherFahrenheit = (weatherTemp * 9) / 5 + 32;
+                  weatherFahrenheit = (weatherTemp * 9) / 5 + 32;
 
                 // you shall also round off the value of the degrees fahrenheit calculated into two decimal places
                 function roundToTwo(num) {
@@ -218,7 +235,10 @@ app.post('/', function(req, res) {
             main: main,
             error: null,
           });
+          
+
         }
+       
       }
   });
 });

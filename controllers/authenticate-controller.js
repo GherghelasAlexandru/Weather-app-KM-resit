@@ -11,6 +11,7 @@ connection.connect(function(err){
         return;
     }
     console.log('Connection established');
+    
 });
 module.exports = connection;
 
