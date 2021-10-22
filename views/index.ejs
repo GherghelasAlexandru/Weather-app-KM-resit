@@ -4,14 +4,11 @@
     <title>WeatherSystem</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <!-- Bootstrap CSS -->
-    <!-- Use some bootstrap CSS and google fonts to quicken the process -->
-    <!-- you shall also add a favicon -->
+    <!-- Use some bootstrap CSS and google fonts  -->
+  
     <link
       rel="shortcut icon"
       href="https://img.icons8.com/office/16/000000/sunset--v2.png"
@@ -33,12 +30,11 @@
 
   <body>
     <h3>To change the location <a href ="/login">login</a> as administrator </h3>
-<!-- Main container -->
-<div class="container">
+    <!-- Main container -->
+   <div class="container">
 
     <!-- This shall hold the input fields and the output data -->
     <fieldset>
-  
       <!-- Upon fetching of data you will display it -->
       <%if( weather !== null){ %>
       <div class="grid">
@@ -105,10 +101,10 @@
           </div>
 
           <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-            <div class="card-header">Alarms:</div>
-            <div class="card-body text-dark">Bootstrap CSS
+            <div class="card-header">Alarms Display:</div>
+            <div class="card-body text-dark">
               <img src="<%= icon %>" alt="Weather-Icon">
-              <h5 class="card-title">Temperature</h5>
+              <h5 class="card-title">A</h5>
               <p class="card-text">
                 In Degrees:
                 <%= temp %>°C/

@@ -1,19 +1,22 @@
-body {
+body 
+{
     width: auto;
     margin: 0 auto;
     font-family: "Open Sans", sans-serif;
-  }
+}
   
-  /* This will format the whole fieldset content*/
+/* This will format the whole fieldset content*/
   
-  .container {
+.container 
+ {
     width: 80%;
     margin: 0 auto;
   }
   
   /* This will format the whole fieldset content*/
   
-  fieldset {
+  fieldset 
+  {
     display: block;
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
@@ -34,8 +37,8 @@ body {
   /* Format the input section */
   
   /* Format the input, paragraph, hover effect, focus and button */
-  .ghost-input,
-  p {
+  .ghost-input,p
+   {
     display: block;
     font-weight: 300;
     width: 100%;
@@ -58,11 +61,13 @@ body {
     transition: all 0.1s ease-in-out;
   }
   
-  .ghost-input:focus {
+  .ghost-input:focus 
+  {
     border-bottom: 1px solid #ddd;
   }
   
-  .ghost-button {
+  .ghost-button 
+  {
     background-color: transparent;
     border: 2px solid #ddd;
     padding: 10px 30px;
@@ -79,6 +84,34 @@ body {
     border: 2px solid #515151;
   }
   
-  p {
+  p 
+  {
     color: #e64a19;
   }
+
+.AlarmContainer
+{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgb(251, 242, 133);
+  background: radial-gradient(
+    circle,
+    rgba(251, 242, 133, 0.6334908963585435) 0%,
+    rgba(224, 196, 91, 0.8407738095238095) 35%,
+    rgba(230, 224, 113, 1) 100%
+  );
+}
+
+.DisplayH
+{
+  text-align: center;
+  color:black;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 2rem;
+}
+

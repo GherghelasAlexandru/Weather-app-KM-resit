@@ -40,11 +40,13 @@ module.exports.authenticate=function(req,res){
             }
          
         }
-        else{
+        else
+        {
           res.json({
-              status:false,    
-            message:"Username does not exist does not exits"
-});
+              
+            status:false,    
+            message:"Username does not exist"
+          });
         }
       }
     });

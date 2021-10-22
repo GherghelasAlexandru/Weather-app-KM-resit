@@ -7,8 +7,10 @@ const bodyParser = require("body-parser");
 const request = require("request");
 const app = express();
 var currentTemperature;
-
+var currentCity;
 const fs = require('fs');
+const hotAlarm = require('./Modules/HotAlarm2');
+const dailyAlarms = require('./Modules/DailyAlarms');
 
 var authenticateController=require('./controllers/authenticate-controller');
 app.use(bodyParser.urlencoded({extended:true}));
@@ -62,7 +64,6 @@ app.post('/login',(req,res,next)=>{
 })
 
 
-
 app.post('/auth', function(request, response) {
 	var username = request.body.username;
   var password = request.body.password;
@@ -82,7 +83,6 @@ app.post('/auth', function(request, response) {
 		response.end();
 	}
 });
-
 
 // Setup your default display on launch
 app.get("/", function (req, res) {
@@ -129,7 +129,10 @@ app.get("/", function (req, res) {
                   visibility = `${weather.visibility}`,
                   main = `${weather.weather[0].main}`,
                   weatherFahrenheit;
-                weatherFahrenheit = (weatherTemp * 9) / 5 + 32;
+                  weatherFahrenheit = (weatherTemp * 9) / 5 + 32;
+
+                  //test
+                  currentCity = place;
 
                 // you shall also round off the value of the degrees fahrenheit calculated into two decimal places
                 function roundToTwo(num) {
@@ -153,21 +156,29 @@ app.get("/", function (req, res) {
             error: null,
           });
           currentTemperature = parseInt(weatherTemp);
+          hotAlarm.setLocation(place);
         }
       }
   });
 console.log(currentTemperature);
 
-  if( hotAlarmController.hotAlarm(currentTemperature) == true)
-          {
-            res.writeHead(200, {'Content-Type': 'audio/mp3'});
-            let opStream = fs.createReadStream('/Users/Alex/Documents/GitHub/Weather-app-KM-resit/resources/alarm.mp3');
+
+  // if( hotAlarmController.hotAlarm(currentTemperature) == true)
+  //         {
+  //           res.writeHead(200, {'Content-Type': 'audio/mp3'});
+  //           let opStream = fs.createReadStream('/Users/Alex/Documents/GitHub/Weather-app-KM-resit/resources/alarm.mp3');
        
-            opStream.pipe(res);
-            return;
-          }
+  //           opStream.pipe(res);
+  //           return;
+  //         }
     
-  });
+   });
+
+// trigger hoyAlarm 
+
+// hotAlarm.triggerAlarm(app);
+dailyAlarms.triggerAlarm(app);
+
 
   // On a post request, the app shall data from OpenWeatherMap using the given arguments
 app.post('/s', function(req, res) {
