@@ -156,7 +156,7 @@ app.get("/", function (req, res) {
             error: null,
           });
           currentTemperature = parseInt(weatherTemp);
-          hotAlarm.setLocation(place);
+         
         }
       }
   });

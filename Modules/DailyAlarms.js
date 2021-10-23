@@ -3,6 +3,7 @@ var coldTempAlert = 5;
 var request = require('request');
 var apiKey = 'ea17eb5501a9d76bed7c68dd09c044dd';
 var city = 'Emmen';
+var rainAlert = 'Clouds';
 
 // module.exports = {
 //     setLocation: function(location)
@@ -30,8 +31,8 @@ module.exports = {
 
             let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
         
-            console.log(city)
-            console.log(url)
+           // console.log(city)
+           // console.log(url)
 
             // Request for data using the URL
             request(url, function(err, response, body) {
@@ -48,23 +49,21 @@ module.exports = {
                 {
                     
                     let weather = JSON.parse(body);
-                    console.log(weather)
+                    
                     //  output it in the console just to make sure that the data is there
                     //console.log(weather);
          
-                    if (weather.main == undefined) 
+                    if (weather.main == undefined && weather.weather == undefined) 
                     {
-                        console.log("ana");
+                        //console.log("ana");
                         res.render('DisplayAlert', { weather: null, error: 'Error, please try again' });
                     } 
                     else
                     {
+                      //check for temperature alarms
                         
-                        
-                    let weatherTemp = `${weather.main.temp}`,
-                        weatherPressure = `${weather.main.pressure}`,
-                        weatherDescription = `${weather.weather[0].description}`,
-                        humidity = `${weather.main.humidity}`;
+                       let weatherTemp = `${weather.main.temp}`;
+                       console.log(parseInt(weatherTemp));
                         
 
                       // check for hot weather alert
@@ -80,7 +79,6 @@ module.exports = {
                         var hotAlertMessage = "No Heat Wave alarms,Sir!";
                       }
 
-
                       // check for cold weather alert
 
                       if(parseInt(weatherTemp) <= coldTempAlert)
@@ -95,6 +93,29 @@ module.exports = {
                         var coldAlertMessage = "No Frost alarms,Sir!";
                       }
 
+
+
+                      //check for precipitations alert
+
+                      let weatherRain = `${weather.weather[0].main}`;
+                      console.log(weatherRain);
+
+                      //Check for rain alert
+
+                     
+                      if(weatherRain == rainAlert )
+                      {
+                        var rainAlarmMessage = 'Warning Sir!! There will be precipitations!';
+                      }
+                      else
+                      {
+                        
+                        var rainAlarmMessage = 'No precipitations alarms';
+                      }
+
+
+                      
+
                       
 
                       
@@ -103,7 +124,7 @@ module.exports = {
         
                       
                     //render the data to alarm view (DisplayAlert.ejs) before displaying it out
-                    res.render("DisplayAlert.ejs", { hotAlarmMessage: hotAlertMessage, coldAlarmMessage: coldAlertMessage });
+                    res.render("DisplayAlert.ejs", { hotAlarmMessage: hotAlertMessage, coldAlarmMessage: coldAlertMessage, precipitationAlarmMessage: rainAlarmMessage });
                     
                     
         

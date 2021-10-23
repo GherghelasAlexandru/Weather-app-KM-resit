@@ -29,47 +29,46 @@
   </head>
 
   <body>
-   
-    
     <!-- Main container -->
-    <h2 class="DisplayH">Incomming Alarms</h2>
+    <h3 class="DisplayH">Incomming Alarms</h3>
    
     <div class="container">  
             <fieldset>
-
+              
                 
-                        <div class="card-deck">
+        <div class="card-deck">
 
-                            <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                                <div class="card-header">Hot Temperature Alert</div>
-                                <div class="card-body text-dark">
-                                <h5 class="card-title">Alarm:</h5>
-                                <p class="card-text">    
-                                    <%= hotAlarmMessage  %>
-                                </p>
-                                </div>
-                            </div>
+
+           <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
+             <div class="card-header">Hot Temperature Alert</div>
+             <div class="card-body text-dark">
+             <h5 class="card-title">Alarm:</h5>
+             <p class="card-text"><%= hotAlarmMessage  %></p>
+             </div>
+            </div>
                             
-                        </div>
 
-
-                        <div class="card-deck">
-
-                            <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                                <div class="card-header">Cold Temperature Alert</div>
-                                <div class="card-body text-dark">
-                                <h5 class="card-title">Alarm:</h5>
-                                <p class="card-text">    
-                                    <%= coldAlarmMessage  %>
-                                </p>
-                                </div>
-                            </div>
-                            
-                        </div>
+            <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
+                <div class="card-header">Cold Temperature Alert</div>
+                <div class="card-body text-dark">
+                <h5 class="card-title">Alarm:</h5>
+                <p class="card-text"><%= coldAlarmMessage  %></p>
+                </div>              
+             </div>
                         
-            
+                        
 
-            </fieldset>
+             <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
+                  <div class="card-header">Precipitatio Temperature Alert</div>
+                      <div class="card-body text-dark">
+                      <h5 class="card-title">Alarm:</h5>
+                      <p class="card-text"><%= precipitationAlarmMessage  %></p>
+             </div>
+             </div>
+                          
+        </div>
+     </fieldset>
+    <a href="/"><button>Home</button></a>
      </div>
 
   </body>
