@@ -13,7 +13,8 @@ module.exports = {
         app.get('/WeatherForecast',function(req,res)
         {
             
-           makeMaxDayTempRequest(url,res);
+           makeMaxTempRequest(url,res);
+           makeMinTempRequest(url,res);
              
             
 
@@ -22,69 +23,69 @@ module.exports = {
     }
 };
 
-// for  Day Time  average max temp
-// function makeMaxDayTempRequest(url,res)
-// {
-//     // for storing the average temp
-//     var averageDayMaxTemp = 0;
-//     var sum = 0;
+
+//check Min temperature for the next 7 days
+function makeMinTempRequest(url,res)
+{
+    // for storing the average temp
+    var lowTemperatures = [];
+    
     
 
-//     // // access api
-//     request(url, function(err, response, body) {
+    // // access api
+    request(url, function(err, response, body) {
                 
         
 
-//         // On return, check the json data fetched
+        // On return, check the json data fetched
 
-//         if (err) 
-//         {
-//             res.render('WeatherForecast', { weather: null, error: 'Error, please try again' });
-//         } 
+        if (err) 
+        {
+            res.render('WeatherForecast', { weather: null, error: 'Error, please try again' });
+        } 
 
-//         else 
-//         {
-//             // parse the JSON info
-//             let forecast = JSON.parse(body);
+        else 
+        {
+            // parse the JSON info
+            let forecast = JSON.parse(body);
 
-//             // check the 7 days inside the JSON
-//             if(forecast.daily == undefined)
-//             {
-//                 res.render('WeatherForecast',{ weather: null, error: 'Error, please try again' });
-//             }
+            // check the 7 days inside the JSON
+            if(forecast.daily == undefined)
+            {
+                res.render('WeatherForecast',{ weather: null, error: 'Error, please try again' });
+            }
 
-//             else
-//             {
+            else
+            {
 
-//                let temperatures = forecast.daily;
+               var temperatures = forecast.daily;
                
  
-//                //console.log(temperatures[0].temp['day']);
+               //console.log(temperatures[0].temp['day']);
 
-//                // loop thru days for day time max temp and make sum based on each day
-//                for(i = 0; i < 7; i++)
-//                {
-//                     var temp = temperatures[i].temp['day'];
-//                     sum = sum + temp;
-//                     if( i == 6)
-//                     {
-                        
-//                         averageDayMaxTemp = (sum / 7).toFixed(2);
-//                         console.log(averageDayMaxTemp);
-                        
-//                     }       
-//                } 
-
-//                res.render('WeatherForecast',{averageDayMaxTemp:averageDayMaxTemp});
+               // loop thru days and retain min temp to dispay it
+               for(i = 0; i < 7; i++)
+               {
+                    console.log(temperatures[i].temp['min']);
+                    
+                    //maxTemperatures.set(AddDay(i),temperatures[i].temp['max']);
+                    lowTemperatures.push( [AddDay(i),temperatures[i].temp['min']] );
+               } 
+               console.log(lowTemperatures);
                
-//             }
-//         }
-
-//     });
-// }
 
 
-function makeMaxDayTempRequest(url,res)
+               res.render('WeatherForecast',{lowTemperatures : lowTemperatures});
+               
+            }
+        }
+
+    });
+}
+
+
+// check  max temperature for the next 7 days
+function makeMaxTempRequest(url,res)
 {
     // for storing the average temp
     var maxTemperatures = [];
@@ -134,7 +135,7 @@ function makeMaxDayTempRequest(url,res)
                
 
 
-               res.render('WeatherForecast',{maxDayTemperatures:maxTemperatures});
+               res.render('WeatherForecast',{maxTemperatures:maxTemperatures});
                
             }
         }

@@ -38,34 +38,27 @@
                 
         <div class="card-deck">
 
-
-           <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-             <div class="card-header">Minimum Temperature</div>
-             <div class="card-body text-dark">
-             <h5 class="card-title">Average temperature seven days:</h5>
-             <p class="card-text"><!--<%=   %> --></p>
-             </div>
-            </div>
+          <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header">Minimum Temperature</div>
+            <div class="card-body text-dark">
+            <h5 class="card-title"> Next Week:</h5>
+            <ul>
+              
+            </ul>
+            </div>              
+         </div>
+           
                             
 
             <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                <div class="card-header">Average Maximum Temperature</div>
+                <div class="card-header">Maximum Temperature</div>
                 <div class="card-body text-dark">
-                <h5 class="card-title"> Day time temperature seven days:</h5>
+                <h5 class="card-title"> Next Week:</h5>
                 <ul>
-                  <% for { %>
-                  <li>Monday:  <%= temperature %> </li>
-                 <!-- <li>Tuesday: </li>
-                  <li>Wednesday: </li>
-                  <li>Thursday: </li>
-                  <li>Friday: </li>
-                  <li>Saturday: </li>
-                  <li>Sunday: </li>-->
+                  <% for (var i = 0; i < maxTemperatures.length; i++) { %>
+                 <p><li><%= maxTemperatures[i] %> °C </li></p> 
                   <% } %>
                 </ul>
-                <p class="card-text"> <%=   %> °C </p>
-                <h5 class="card-title">Night time temperature seven days:</h5>
-                <p class="card-text"><!--<%=   %> --></p>
                 </div>              
              </div>
                         
