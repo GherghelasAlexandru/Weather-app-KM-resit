@@ -7,10 +7,11 @@ const bodyParser = require("body-parser");
 const request = require("request");
 const app = express();
 var currentTemperature;
-var currentCity;
+//var currentCity;
 const fs = require('fs');
-const hotAlarm = require('./Modules/HotAlarm2');
+//const hotAlarm = require('./Modules/HotAlarm2');
 const dailyAlarms = require('./Modules/DailyAlarms');
+const weatherForecast = require('./Modules/WeatherForecast');
 
 var authenticateController=require('./controllers/authenticate-controller');
 app.use(bodyParser.urlencoded({extended:true}));
@@ -178,6 +179,7 @@ console.log(currentTemperature);
 
 // hotAlarm.triggerAlarm(app);
 dailyAlarms.triggerAlarm(app);
+weatherForecast.upcommingWeather(app);
 
 
   // On a post request, the app shall data from OpenWeatherMap using the given arguments

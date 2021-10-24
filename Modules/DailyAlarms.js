@@ -112,17 +112,7 @@ module.exports = {
                         
                         var rainAlarmMessage = 'No precipitations alarms';
                       }
-
-
-                      
-
-                      
-
-                      
-
-
-        
-                      
+      
                     //render the data to alarm view (DisplayAlert.ejs) before displaying it out
                     res.render("DisplayAlert.ejs", { hotAlarmMessage: hotAlertMessage, coldAlarmMessage: coldAlertMessage, precipitationAlarmMessage: rainAlarmMessage });
                     

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DisplayForAlarms</title>
+    <title>Weather Forecast</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -30,7 +30,7 @@
 
   <body>
     <!-- Main container -->
-    <h3 class="DisplayH">Incomming Alarms</h3>
+    <h3 class="DisplayH" style="padding-bottom:15px;">Weather Forecast For Seven Days</h3>
    
     <div class="container">  
             <fieldset>
@@ -40,36 +40,59 @@
 
 
            <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-             <div class="card-header">Hot Temperature Alert</div>
+             <div class="card-header">Minimum Temperature</div>
              <div class="card-body text-dark">
-             <h5 class="card-title">Alarm:</h5>
-             <p class="card-text"><%= hotAlarmMessage  %></p>
+             <h5 class="card-title">Average temperature seven days:</h5>
+             <p class="card-text"><!--<%=   %> --></p>
              </div>
             </div>
                             
 
             <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                <div class="card-header">Cold Temperature Alert</div>
+                <div class="card-header">Average Maximum Temperature</div>
                 <div class="card-body text-dark">
-                <h5 class="card-title">Alarm:</h5>
-                <p class="card-text"><%= coldAlarmMessage  %></p>
+                <h5 class="card-title"> Day time temperature seven days:</h5>
+                <ul>
+                  <% for { %>
+                  <li>Monday:  <%= temperature %> </li>
+                 <!-- <li>Tuesday: </li>
+                  <li>Wednesday: </li>
+                  <li>Thursday: </li>
+                  <li>Friday: </li>
+                  <li>Saturday: </li>
+                  <li>Sunday: </li>-->
+                  <% } %>
+                </ul>
+                <p class="card-text"> <%=   %> °C </p>
+                <h5 class="card-title">Night time temperature seven days:</h5>
+                <p class="card-text"><!--<%=   %> --></p>
                 </div>              
              </div>
                         
                         
 
              <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                  <div class="card-header">Precipitatio Temperature Alert</div>
+                  <div class="card-header">Wind Speed</div>
                       <div class="card-body text-dark">
-                      <h5 class="card-title">Alarm:</h5>
-                      <p class="card-text"><%= precipitationAlarmMessage  %></p>
-             </div>
+                      <h5 class="card-title">Average for seven days</h5>
+                      <p class="card-text"><!--<%=   %> --></p>
+                       </div>
+               </div>
+
+
+               <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
+                <div class="card-header">Wind Direction</div>
+                <div class="card-body text-dark">
+                <h5 class="card-title">Direction seven days:</h5>
+                <p class="card-text"> <!-- <%=   %> --></p>
+                </div>              
              </div>
                           
         </div>
      </fieldset>
     <a href="/"><button>Home</button></a>
-    <a href="/WeatherForecast"><button>See Incomming Weather</button></a>
+    <a href="/DisplayAlarm"><button>See Incomming Alarms</button></a>
+    
      </div>
 
   </body>
