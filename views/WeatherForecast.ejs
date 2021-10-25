@@ -44,7 +44,7 @@
             <h5 class="card-title"> Next Week:</h5>
             <ul>
               <% for ( i = 0; i < lowTemperatures.length; i++) { %>
-                <p><li><%= lowTemperatures[i] %> °C </li></p> 
+                <li> <%= lowTemperatures[i] %> °C</li> 
                  <% } %>
             </ul>
             </div>              
@@ -58,7 +58,7 @@
                 <h5 class="card-title"> Next Week:</h5>
                 <ul>
                   <% for ( i = 0; i < highTemperatures.length; i++) { %>
-                    <p><li><%= highTemperatures[i] %> °C </li></p> 
+                    <li><%= highTemperatures[i] %> °C </li>
                      <% } %>
                 </ul>
                 </div>              
@@ -70,16 +70,25 @@
                   <div class="card-header">Wind Speed</div>
                       <div class="card-body text-dark">
                       <h5 class="card-title">Average for seven days</h5>
-                      <p class="card-text"><!--<%=   %> --></p>
+                      <ul>
+                        <% for ( i = 0; i < windSpeeds.length; i++) { %>
+                          <li> <%= windSpeeds[i] %> m/s</li>
+                           <% } %>
+                      </ul>
+                      
                        </div>
-               </div>
+             </div>
 
 
                <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
                 <div class="card-header">Wind Direction</div>
                 <div class="card-body text-dark">
                 <h5 class="card-title">Direction seven days:</h5>
-                <p class="card-text"> <!-- <%=   %> --></p>
+                <ul>
+                  <% for ( i = 0; i < windDirections.length; i++) { %>
+                    <li> <%= windDirections[i] %></li>
+                     <% } %>
+                </ul>
                 </div>              
              </div>
                           
