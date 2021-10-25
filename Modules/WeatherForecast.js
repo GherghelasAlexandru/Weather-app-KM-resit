@@ -84,11 +84,11 @@ function calculateWindDirection(forecast)
 
     for(i = 0; i < 7; i++)
     {
-        console.log();
+        //console.log();
         var windDegrees = forecast.daily[i].wind_deg;
 
             var j = (windDegrees + 11.25) % 360;
-            console.log(j);
+           // console.log(j);
             
                 if (j <=  22.5)
                 {

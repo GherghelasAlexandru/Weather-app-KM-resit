@@ -9,9 +9,11 @@ const app = express();
 var currentTemperature;
 //var currentCity;
 const fs = require('fs');
+
 //const hotAlarm = require('./Modules/HotAlarm2');
 const dailyAlarms = require('./Modules/DailyAlarms');
 const weatherForecast = require('./Modules/WeatherForecast');
+const historicalData = require('./Modules/HistoricalData');
 
 var authenticateController=require('./controllers/authenticate-controller');
 app.use(bodyParser.urlencoded({extended:true}));
@@ -180,6 +182,7 @@ console.log(currentTemperature);
 // hotAlarm.triggerAlarm(app);
 dailyAlarms.triggerAlarm(app);
 weatherForecast.upcommingWeather(app);
+historicalData.historicalData(app);
 
 
   // On a post request, the app shall data from OpenWeatherMap using the given arguments
