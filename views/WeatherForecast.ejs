@@ -43,7 +43,9 @@
             <div class="card-body text-dark">
             <h5 class="card-title"> Next Week:</h5>
             <ul>
-              
+              <% for ( i = 0; i < lowTemperatures.length; i++) { %>
+                <p><li><%= lowTemperatures[i] %> °C </li></p> 
+                 <% } %>
             </ul>
             </div>              
          </div>
@@ -55,9 +57,9 @@
                 <div class="card-body text-dark">
                 <h5 class="card-title"> Next Week:</h5>
                 <ul>
-                  <% for (var i = 0; i < maxTemperatures.length; i++) { %>
-                 <p><li><%= maxTemperatures[i] %> °C </li></p> 
-                  <% } %>
+                  <% for ( i = 0; i < highTemperatures.length; i++) { %>
+                    <p><li><%= highTemperatures[i] %> °C </li></p> 
+                     <% } %>
                 </ul>
                 </div>              
              </div>

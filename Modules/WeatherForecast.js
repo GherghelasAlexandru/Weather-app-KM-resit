@@ -10,137 +10,92 @@ let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}
 module.exports = {
     upcommingWeather: function(app)
     {
-        app.get('/WeatherForecast',function(req,res)
+        app.get('/WeatherForecast', function(req, res) 
         {
-            
-           makeMaxTempRequest(url,res);
-           makeMinTempRequest(url,res);
-             
-            
+            var lowTemperatures = [];
+            //Temperature Alert variable 
 
-        });
+            // Get city name passed in the form
         
+            // Use that city name to fetch data
+            // Use the API_KEY in the '.env' file
+
+        
+           // console.log(city)
+           // console.log(url)
+
+            // Request for data using the URL
+            request(url, function(err, response, body) {
+                
+                
+                // On return, check the json data fetched
+
+                if (err) 
+                {
+                    res.render('WeatherForecast', { weather: null, error: 'Error, please try again' });
+                } 
+
+                else 
+                {
+                    
+                    let weather = JSON.parse(body);
+
+                    
+                    
+                    //  output it in the console just to make sure that the data is there
+                   // console.log(weather.daily[0].temp['min']);
+         
+                    if (weather.daily == undefined) 
+                    {
+                        //console.log("ana");
+                        res.render('WeatherForecast', { weather: null, error: 'Error, please try again' });
+                    } 
+                    else
+                    {
+                        //console.log(weather.daily[0]);
+                        for(i = 0; i < 7; i++)
+                        {
+                            //console.log(weather.daily);
+                           // lowTemperatures.push([AddDay(i),weather.daily[0].temp['min']]);
+                        }
+                     
+                       res.render('WeatherForecast',{ lowTemperatures: storeTemperatures("min",weather),highTemperatures: storeTemperatures("max",weather)});
+       
+        
+                    }
+               
+                }
+          });
+        });
     }
 };
 
 
+
+
 //check Min temperature for the next 7 days
-function makeMinTempRequest(url,res)
+
+function storeTemperatures(info,forecast)
 {
-    // for storing the average temp
-    var lowTemperatures = [];
-    
-    
-
-    // // access api
-    request(url, function(err, response, body) {
-                
-        
-
-        // On return, check the json data fetched
-
-        if (err) 
-        {
-            res.render('WeatherForecast', { weather: null, error: 'Error, please try again' });
-        } 
-
-        else 
-        {
-            // parse the JSON info
-            let forecast = JSON.parse(body);
-
-            // check the 7 days inside the JSON
-            if(forecast.daily == undefined)
+    var temperatures = [];
+    switch(info)
+    {
+        case "min":
+            for(i = 0; i < 7; i++)
             {
-                res.render('WeatherForecast',{ weather: null, error: 'Error, please try again' });
-            }
+                    temperatures.push( [AddDay(i),forecast.daily[0].temp['min']] );
+            } 
+            break;
 
-            else
+        case "max":
+            for(i = 0; i < 7; i++)
             {
+                    temperatures.push( [AddDay(i),forecast.daily[0].temp['max']] );
+            } 
 
-               var temperatures = forecast.daily;
-               
- 
-               //console.log(temperatures[0].temp['day']);
+    }
 
-               // loop thru days and retain min temp to dispay it
-               for(i = 0; i < 7; i++)
-               {
-                    console.log(temperatures[i].temp['min']);
-                    
-                    //maxTemperatures.set(AddDay(i),temperatures[i].temp['max']);
-                    lowTemperatures.push( [AddDay(i),temperatures[i].temp['min']] );
-               } 
-               console.log(lowTemperatures);
-               
-
-
-               res.render('WeatherForecast',{lowTemperatures : lowTemperatures});
-               
-            }
-        }
-
-    });
-}
-
-
-// check  max temperature for the next 7 days
-function makeMaxTempRequest(url,res)
-{
-    // for storing the average temp
-    var maxTemperatures = [];
-    
-    
-
-    // // access api
-    request(url, function(err, response, body) {
-                
-        
-
-        // On return, check the json data fetched
-
-        if (err) 
-        {
-            res.render('WeatherForecast', { weather: null, error: 'Error, please try again' });
-        } 
-
-        else 
-        {
-            // parse the JSON info
-            let forecast = JSON.parse(body);
-
-            // check the 7 days inside the JSON
-            if(forecast.daily == undefined)
-            {
-                res.render('WeatherForecast',{ weather: null, error: 'Error, please try again' });
-            }
-
-            else
-            {
-
-               let temperatures = forecast.daily;
-               
- 
-               //console.log(temperatures[0].temp['day']);
-
-               // loop thru days for day time max temp and make sum based on each day
-               for(i = 0; i < 7; i++)
-               {
-                    console.log(temperatures[i].temp['max']);
-                    
-                    //maxTemperatures.set(AddDay(i),temperatures[i].temp['max']);
-                    maxTemperatures.push( [AddDay(i),temperatures[i].temp['max']] );
-               } 
-               
-               
-
-
-               res.render('WeatherForecast',{maxTemperatures:maxTemperatures});
-               
-            }
-        }
-
-    });
+    return temperatures;
 }
 
 
