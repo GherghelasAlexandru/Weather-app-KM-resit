@@ -1,8 +1,8 @@
 var historicalApiKey = '49570502e947409ab8f87aa2a8a13608';
-var lon = 6.8947;
-var lat = 52.7925;
-var url = `https://api.weatherbit.io/v2.0/history/daily?city=Emmen&start_date=2020-10-21&end_date=2020-10-25&key=${historicalApiKey}`;
+var city = 'Emmen';
+var mainUrl = `https://api.weatherbit.io/v2.0/history/daily?city=Emmen&start_date=2020-10-21&end_date=2020-10-25&key=${historicalApiKey}`;
 var request = require('request');
+
 
 module.exports = {
     historicalData: function(app)
@@ -11,7 +11,8 @@ module.exports = {
         {
 
             // Request for data using the URL
-            request(url, function(err, response, body) {
+            request(mainUrl, function(err, response, body) 
+            {
                 
                 // On return, check the json data fetched
 
@@ -33,32 +34,287 @@ module.exports = {
                     } 
                     else
                     {
-                       console.log(calculateDates()[0]);
+                        //loopThroughDays(weather);
+                       //console.log(weather.data[0].max_temp);
+                       //console.log(calculateDates()[0]);
+                       createApiDatesQuerries(calculateDates());
                        //res.render('HistoricalData',{ });
                     }
                
                 }
-          });
+            });
+
+             // makeRequest(returnDatesForApi());
+
+
+
         });
     }
 };
 
+
+// calculate the curent date, and  one year back
 function calculateDates()
 {
     var now = new Date();
+    var oneYearDate = new Date();   
+    oneYearDate.setDate( now.getDate() - 6 );
+    oneYearDate.setFullYear( now.getFullYear() - 1 );
     var daysOfYear = [];
-    for(var d = new Date(2020,10,25); d <= now; d.setDate(d.getDate() + 1))
+    for(var d = oneYearDate; d <= now; d.setDate(d.getDate() + 1))
     {
-        var date = new Date(d).toString().slice(0,10).split(" ").join("");
+        var date = new Date(d).toString().slice(0,15).split(" ").join("");
         daysOfYear.push(date);
     }
-    retriveMounth(daysOfYear[0]);
+    //retriveYear(daysOfYear[0]);
     return daysOfYear;
 
 }
 
+function returnDatesForApi()
+{
+    return createApiDatesQuerries(calculateDates());
+}
+
+
+// in this API case, to retrive information for one year, the maximum number of days in one request is 7 days.
+// therefore in the querries array there will be 7 days  entries for the API; 
+function createApiDatesQuerries(daysOfYear)
+{
+    var querries = ['startDate'][''];
+    var startDate;
+    var days = calculateDates();
+    var numberDaysWeek = 0;
+
+    for(i = 0; i < days.length; i++)
+    {
+        if(numberDaysWeek == 0 )
+        {
+            startDate = daysOfYear[i];
+            console.log(conversion(startDate));
+            numberDaysWeek ++;
+        }
+        else if(numberDaysWeek == 6)
+        {
+            querries.push([conversion(startDate),conversion(daysOfYear[i])]);
+            numberDaysWeek = 0;
+            startDate = "";
+
+        }
+        else
+        {
+        numberDaysWeek ++;
+        }
+        console.log(querries);
+        return querries;
+
+    }
+
+   // console.log(startQuerries);
+  // console.log(stopQuerries[0]);
+  // console.log(convertYear(stopQuerries[0]));
+  // console.log(transformMounth(stopQuerries[0]));
+  // console.log(stopQuerries[0]);
+   //console.log(convertNumber(stopQuerries[0]));
+   //console.log(joinInformation(convertYear(startQuerries[0]),transformMounth(startQuerries[0]),convertNumber(startQuerries[0])));
+
+}
+
+
+function loopThroughDays(weather)
+{
+   
+   var oneDay = ['temperatures','mounths'];
+   oneDay['temperatures'] = new Array();
+   oneDay['mounths'] = new Array();
+   for( i = 0; i < 7; i++)
+   { 
+     oneDay['temperatures'].push(weather.data[i].max_temp);
+     oneDay['mounths'].push(weather.data[i].datetime);
+   }
+
+   console.log(oneDay);
+}
+
+function structureData()
+{
+
+
+
+
+
+
+
+}
+
+function makeRequest(querries)
+{
+
+    var information = {};
+    information.mounths = "";
+    information.temperatures = new Array();
+
+    for(i = 0; i <= querries.length; i++)
+    {
+
+            let url = `https://api.weatherbit.io/v2.0/history/daily?city=${city}&start_date=${querries.startDate[i]}&end_date${querries.endDate[i]}&key=${historicalApiKey}`;
+            
+            request(url, function(err, response, body) {
+                        
+                // On return, check the json data fetched
+
+                if (err) 
+                {
+                    res.render('HistoricalData', { weather: null, error: 'Error, please try again' });
+                } 
+
+                else 
+                {
+                    
+                    let weather = JSON.parse(body);
+
+        
+                    if (weather == undefined) 
+                    {
+                        //console.log("ana");
+                        res.render('HistoricalData', { weather: null, error: 'Error, please try again' });
+                    } 
+                    else
+                    {
+                          loopThroughDays(weather);
+                    }
+            
+                }
+            });
+
+   }
+   
+}
+
+
+
+
+
+
+
+//functions required to work and convert dates in the api required format
+
+function retriveDayNumber(date)
+{
+    var dayNumber = date.slice(6,8);
+    return dayNumber;
+}
+
+
+
+function retriveYear(date)
+{
+    var year = date.slice(8,14);
+    return year;
+}
+
+
+function retriveDay(date)
+{
+    var day = date.slice(0,3);
+    return day;
+}
+
+function convertYear(date)
+{
+    return retriveYear(date);
+}
+
 function retriveMounth(date)
 {
-   var mounth = date.slice(3,6);
-   console.log(mounth);
+   var mounth = convertMounth(date.slice(3,6));
+   return mounth;
 }
+
+function transformMounth(mounth)
+{
+    return retriveMounth(mounth);
+}
+
+function convertNumber(date)
+{
+    return retriveDayNumber(date);
+}
+
+// create new format YYYY-MM-DD
+
+function joinInformation(year,mounth,day)
+{
+    var apiDate = year + "-" + mounth + "-" + day;
+    return apiDate;
+}
+
+/// put together the puzzle pices
+function conversion (date)
+{
+
+   var newDateFormat = joinInformation(convertYear(date),transformMounth(date),convertNumber(date));
+
+   return newDateFormat;
+
+
+}
+
+
+function makeAverage(array)
+{
+    var average;
+    for(i = 0; i < array.length; i++)
+    {
+        average = average + array[i];
+    }
+
+    return average;
+}
+
+
+function convertMounth(month)
+{
+    switch(month)
+    {
+        case "Jan":
+            return "01";
+        
+        case "Feb":
+             return "02";
+
+        case "Mar":
+             return "03";
+
+        case "Apr":
+             return "04";
+
+        case "May":
+             return "05";
+
+        case "Jun":
+             return "06";
+
+        case "Jul":
+             return "07";
+
+        case "Aug":
+             return "08";
+
+
+        case "Sep":
+             return "09";
+
+        case "Oct":
+             return "10";
+
+        case "Nov":
+             return "11";
+
+        case "Dec":
+             return "12";
+
+    }
+}
+
+
