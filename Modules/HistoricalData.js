@@ -9,6 +9,7 @@ module.exports = {
     {
         app.get('/HistoricalData', function(req, res) 
         {
+            
 
             // Request for data using the URL
             request(mainUrl, function(err, response, body) 
@@ -37,14 +38,20 @@ module.exports = {
                         //loopThroughDays(weather);
                        //console.log(weather.data[0].max_temp);
                        //console.log(calculateDates()[0]);
-                       createApiDatesQuerries(calculateDates());
+                       //createApiDatesQuerries(calculateDates());
                        //res.render('HistoricalData',{ });
+                       
+                       
                     }
                
                 }
             });
 
-             // makeRequest(returnDatesForApi());
+            makeRequest(returnDatesForApi());
+
+            
+
+             
 
 
 
@@ -79,24 +86,30 @@ function returnDatesForApi()
 
 // in this API case, to retrive information for one year, the maximum number of days in one request is 7 days.
 // therefore in the querries array there will be 7 days  entries for the API; 
-function createApiDatesQuerries(daysOfYear)
+function createApiDatesQuerries()
 {
-    var querries = ['startDate'][''];
+    //console.log(daysOfYear);
+    var querries = {};
+    querries.startDates = new Array();
+    querries.endDates = new Array();
     var startDate;
     var days = calculateDates();
+    //console.log(days.length);
     var numberDaysWeek = 0;
 
     for(i = 0; i < days.length; i++)
     {
+        //console.log(i);
         if(numberDaysWeek == 0 )
         {
-            startDate = daysOfYear[i];
-            console.log(conversion(startDate));
+            querries.startDates.push(conversion(days[i]));
             numberDaysWeek ++;
         }
-        else if(numberDaysWeek == 6)
+        else if(numberDaysWeek == 7)
         {
-            querries.push([conversion(startDate),conversion(daysOfYear[i])]);
+           // console.log(numberDaysWeek);
+           
+            querries.endDates.push(conversion(days[i]));
             numberDaysWeek = 0;
             startDate = "";
 
@@ -105,10 +118,11 @@ function createApiDatesQuerries(daysOfYear)
         {
         numberDaysWeek ++;
         }
-        console.log(querries);
-        return querries;
-
+      
+       
     }
+    //console.log(querries.startDates);
+    return querries;
 
    // console.log(startQuerries);
   // console.log(stopQuerries[0]);
@@ -123,17 +137,20 @@ function createApiDatesQuerries(daysOfYear)
 
 function loopThroughDays(weather)
 {
+   // console.log("ana");
    
-   var oneDay = ['temperatures','mounths'];
-   oneDay['temperatures'] = new Array();
-   oneDay['mounths'] = new Array();
+   var oneDay = {};
+   oneDay.temperatures = new Array();
+   oneDay.mounths = new Array();
    for( i = 0; i < 7; i++)
    { 
-     oneDay['temperatures'].push(weather.data[i].max_temp);
-     oneDay['mounths'].push(weather.data[i].datetime);
+       console.log(weather.data[i].max_temp);
+       
+      oneDay.temperatures.push(weather.data[i].max_temp);
+      oneDay.mounths.push(weather.data[i].datetime);
    }
 
-   console.log(oneDay);
+  // console.log(oneDay);
 }
 
 function structureData()
@@ -149,16 +166,21 @@ function structureData()
 
 function makeRequest(querries)
 {
+    
 
     var information = {};
     information.mounths = "";
     information.temperatures = new Array();
-
-    for(i = 0; i <= querries.length; i++)
+    //console.log(querries.startDates[0],querries.endDates[0]);
+    
+    var url ="";
+    for(i = 0; i <= querries.startDates.length - 2; i++)
     {
-
-            let url = `https://api.weatherbit.io/v2.0/history/daily?city=${city}&start_date=${querries.startDate[i]}&end_date${querries.endDate[i]}&key=${historicalApiKey}`;
-            
+        
+            //console.log(querries.endDates[i]);
+             
+             url = `https://api.weatherbit.io/v2.0/history/daily?city=${city}&start_date=${querries.startDates[i]}&end_date=${querries.endDates[i]}&key=${historicalApiKey}`;
+             console.log(url);
             request(url, function(err, response, body) {
                         
                 // On return, check the json data fetched
@@ -170,8 +192,14 @@ function makeRequest(querries)
 
                 else 
                 {
-                    
+                    //console.log(body);
+                    removeByteOrderMark(body);
+                   
                     let weather = JSON.parse(body);
+
+                    
+
+                   // console.log(weather);
 
         
                     if (weather == undefined) 
@@ -181,6 +209,7 @@ function makeRequest(querries)
                     } 
                     else
                     {
+                       // console.log(weather);
                           loopThroughDays(weather);
                     }
             
@@ -315,6 +344,11 @@ function convertMounth(month)
              return "12";
 
     }
+}
+
+function removeByteOrderMark(str)
+{
+    return str.replace(/^\ufeff/g,"");
 }
 
 
