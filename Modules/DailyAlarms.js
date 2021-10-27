@@ -1,41 +1,30 @@
+var request = require('request');
+// variables  required for trigerring the alarms
 var hotTempAlert = 25;
 var coldTempAlert = 5;
-var request = require('request');
-var apiKey = 'ea17eb5501a9d76bed7c68dd09c044dd';
-var city = 'Emmen';
 var rainAlert = 'Clouds';
 
-// module.exports = {
-//     setLocation: function(location)
-//     {
-//         city = location;
-//     }
-// }
+var apiKey = 'ea17eb5501a9d76bed7c68dd09c044dd';
+var city = 'Emmen';
+
+
 
 module.exports = {
     triggerAlarm: function(app)
     {
-        console.log(city)
+        //console.log(city)
         
         app.get('/DisplayAlarm', function(req, res) 
         {
-            //Temperature Alert variable
-            
-
-            // Get city name passed in the form
-        
-
 
             // Use that city name to fetch data
             // Use the API_KEY in the '.env' file
 
             let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-        
-           // console.log(city)
-           // console.log(url)
 
             // Request for data using the URL
-            request(url, function(err, response, body) {
+            request(url, function(err, response, body) 
+            {
                 
              
                 // On return, check the json data fetched
@@ -116,8 +105,7 @@ module.exports = {
                     //render the data to alarm view (DisplayAlert.ejs) before displaying it out
                     res.render("DisplayAlert.ejs", { hotAlarmMessage: hotAlertMessage, coldAlarmMessage: coldAlertMessage, precipitationAlarmMessage: rainAlarmMessage });
                     
-                    
-        
+  
                 }
                
               }

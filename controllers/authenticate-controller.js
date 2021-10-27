@@ -1,10 +1,12 @@
-var mysql      =require('mysql');
+var mysql = require('mysql');
+// connection details
 var connection = mysql.createConnection({
   host     :'localhost',
   user     :'root',
   password :'',
   database :'test'
 });
+
 connection.connect(function(err){
     if (err) {
         console.log('Error connecting to Db');
@@ -15,7 +17,7 @@ connection.connect(function(err){
 });
 module.exports = connection;
 
-
+//create authentification function 
 module.exports.authenticate=function(req,res){
     var username=req.body.username;
     var password=req.body.password;

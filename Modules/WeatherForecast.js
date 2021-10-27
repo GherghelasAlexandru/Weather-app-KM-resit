@@ -4,6 +4,8 @@ var city = 'Emmen';
 var lon = 6.8947;
 var lat = 52.7925;
 // one call API link based on lat and lon
+
+
 let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=metric&appid=${apiKey}`;
 
 
@@ -12,14 +14,10 @@ module.exports = {
     {
         app.get('/WeatherForecast', function(req, res) 
         {
-            var lowTemperatures = [];
+
             //Temperature Alert variable 
 
-            // Get city name passed in the form
-        
-            // Use that city name to fetch data
-            // Use the API_KEY in the '.env' file
-
+ 
         
            // console.log(city)
            // console.log(url)
@@ -61,9 +59,8 @@ module.exports = {
 
 
 
-//check Min temperature for the next 7 days
-
-function retainWindSpeeds(forecast)
+//store wind speed for the next 7 days 
+ function retainWindSpeeds(forecast)
 {
    var windSpeeds = [];
 
@@ -77,8 +74,8 @@ return windSpeeds;
 
 }
 
-
-function calculateWindDirection(forecast)
+// convert wind direction degrees in cardinal points
+ function calculateWindDirection(forecast)
 {
     var windDirections = [];
 
@@ -170,10 +167,10 @@ function calculateWindDirection(forecast)
 
   return windDirections;
 
-
 }
 
-function storeTemperatures(info,forecast)
+// store the temperature for the next 7 days 
+ function storeTemperatures(info,forecast)
 {
     var temperatures = [];
     switch(info)
@@ -197,7 +194,8 @@ function storeTemperatures(info,forecast)
 }
 
 
-function AddDay(i)
+//add  a day based on a for loop 
+ function AddDay(i)
 {
     switch(i)
     {

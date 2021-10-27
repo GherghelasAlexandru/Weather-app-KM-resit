@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>WeatherSystem</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <!-- Use some bootstrap CSS and google fonts  -->
+  
+    <link
+      rel="shortcut icon"
+      href="https://img.icons8.com/office/16/000000/sunset--v2.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <fieldset>
+        <div>
+        <canvas id="temperatureChart" width="400" height="400">
+            <script>
+             const ctx = document.getElementById('temperatureChart');
+             const tempChar = new Chart(ctx,{
+                 type: 'line',
+                 data: {
+                     labels:['a'],
+                     
+                 }
+             })
+
+            </script>
+        
+
+
+
+        </canvas>
+      </div>
+
+     <p> <%= increment %></p>
+
+
+
+
+    </fieldset>
+    <a href="/DisplayAlarm"><button>See Incomming Alarms</button></a>
+    <a href="/WeatherForecast"><button>See Incomming Weather</button></a>
+    <a href="/HistoricalData"><button>See Historical Data</button></a>
+  </div>
+  </body>
+</html>
