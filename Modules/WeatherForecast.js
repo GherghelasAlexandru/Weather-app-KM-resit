@@ -3,6 +3,7 @@ var apiKey = 'ea17eb5501a9d76bed7c68dd09c044dd';
 var city = 'Emmen';
 var lon = 6.8947;
 var lat = 52.7925;
+
 // one call API link based on lat and lon
 
 
@@ -46,7 +47,7 @@ module.exports = {
                     } 
                     else
                     {
-                       
+                       ///console.log(weather);
                        res.render('WeatherForecast',{ lowTemperatures: storeTemperatures("min",weather), highTemperatures: storeTemperatures("max",weather), windDirections:calculateWindDirection(weather),windSpeeds: retainWindSpeeds(weather)});
                     }
                
@@ -69,6 +70,7 @@ module.exports = {
        windSpeeds.push([AddDay(i),forecast.daily[i].wind_speed]);
    }
 
+   
 return windSpeeds;
 
 
@@ -164,7 +166,7 @@ return windSpeeds;
 
      }
 
-
+  console.log(windDirections);
   return windDirections;
 
 }
@@ -189,7 +191,6 @@ return windSpeeds;
             } 
 
     }
-
     return temperatures;
 }
 
@@ -225,6 +226,8 @@ return windSpeeds;
 }
 
 
-
-
+module.exports.AddDay = AddDay;
+module.exports.storeTemperatures = storeTemperatures;
+module.exports.calculateWindDirection = calculateWindDirection;
+module.exports.retainWindSpeeds = retainWindSpeeds;
 

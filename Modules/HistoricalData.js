@@ -1,4 +1,4 @@
-var historicalApiKey = 'b2037f4f67124b3e82172acfc775651b';
+var historicalApiKey = '49570502e947409ab8f87aa2a8a13608';
 var city = 'Emmen';
 let Immutable = require('immutable');
 var request = require('request');
@@ -109,6 +109,7 @@ function loopThroughDays(weather)
       oneWeek.dates.push(weather.data[i].datetime);
    }
 
+  console.log(oneWeek);
   return oneWeek;
 }
 
@@ -287,16 +288,6 @@ function retriveYear(date)
 }
 
 
-function retriveDay(date)
-{
-    var day = date.slice(0,3);
-    return day;
-}
-
-function convertYear(date)
-{
-    return retriveYear(date);
-}
 
 function retriveMounth(date)
 {
@@ -326,7 +317,7 @@ function joinInformation(year,mounth,day)
 function conversion (date)
 {
 
-   var newDateFormat = joinInformation(convertYear(date),transformMounth(date),convertNumber(date));
+   var newDateFormat = joinInformation(retriveYear(date),transformMounth(date),convertNumber(date));
 
    return newDateFormat;
 
@@ -336,12 +327,14 @@ function conversion (date)
 
 function makeAverage(array)
 {
-    var average;
+    var average = 0;
     for(i = 0; i < array.length; i++)
     {
         average = average + array[i];
     }
-    return average/array.length;
+   
+    average = average / array.length;
+    return average;
 }
 
 
@@ -439,7 +432,20 @@ function convertMounthToLetters(month)
 }
 
 
-function removeByteOrderMark(str)
-{
-    return str.replace(/^\ufeff/g,"");
-}
+module.exports.helpOrganize = helpOrganize;
+module.exports.convertMounthToLetters = convertMounthToLetters;
+module.exports.convertMounthToNumber = convertMounthToNumber;
+module.exports.makeAverage = makeAverage;
+module.exports.conversion = conversion;
+module.exports.joinInformation = joinInformation;
+module.exports.convertNumber = convertNumber;
+module.exports.transformMounth = transformMounth;
+module.exports.retriveMounth = retriveMounth;
+module.exports.retriveYear = retriveYear;
+module.exports.retriveDayNumber = retriveDayNumber;
+module.exports.reconvert = reconvert;
+module.exports.structureData = structureData;
+module.exports.loopThroughDays = loopThroughDays;
+module.exports.returnDatesForApi = returnDatesForApi;
+module.exports.createApiDatesQuerries = createApiDatesQuerries;
+module.exports.calculateDates = calculateDates;
