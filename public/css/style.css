@@ -11,7 +11,7 @@ body
  {
     width: 80%;
     margin: 0 auto;
-  }
+ }
   
   /* This will format the whole fieldset content*/
   
@@ -32,6 +32,8 @@ body
     border-image-repeat: initial;
     min-width: -webkit-min-content;
     padding: 30px;
+    margin: 0 auto;
+    text-align: center;
   }
   
   /* Format the input section */
@@ -115,5 +117,96 @@ body
   font-size: 2rem;
 }
 
+.login-form {
+  width: 500px;
+  height: auto;
+  margin: 0 auto;
+  outline: dashed 1px black;
+  font-family: Tahoma, Geneva, sans-serif;
+  text-align: center;
+  
+}
+
+.loginElement
+{
+  width: 100%;
+}
+
+.logInH {
+  text-align: center;
+  color: #4d4d4d;
+  font-size: 24px;
+  padding: 20px 0 20px 0;
+  text-align: center;
+}
 
 
+.loginInput {
+  width: 80%;
+  padding: 15px;
+  border: 1px solid #dddddd;
+  margin-bottom: 15px;
+  box-sizing:border-box;
+  text-align: center;
+}
+
+
+
+.niceButton
+{
+  background-color: #e7e7e7; 
+  font-size: 15px;
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 2px solid #555555;
+  color: black;
+  margin-top:50px;
+  margin-bottom:50px;
+  margin: 0 auto;
+  margin-left: 45px;
+}
+
+
+.niceButton:hover {
+  background-color: #555555;
+  color: white;
+}
+
+
+.send
+{
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 300px;
+  margin-bottom: 40px;
+}
+
+
+.indexH
+{
+  text-align: center;
+  color: #4d4d4d;
+  font-size: 24px;
+  padding: 20px 0 20px 0;
+  text-align: center;
+}
+
+
+.grid
+{
+  text-align: center;
+}
+
+.buttons
+{
+   margin: 0 auto;
+
+
+}
+
+.card-deck
+{
+  text-align: center;
+  margin-left: 100px;
+  
+}
