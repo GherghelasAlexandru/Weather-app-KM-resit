@@ -1,66 +1,26 @@
-var historicalApiKey = '49570502e947409ab8f87aa2a8a13608';
+var historicalApiKey = 'b2037f4f67124b3e82172acfc775651b';
 var city = 'Emmen';
-var mainUrl = `https://api.weatherbit.io/v2.0/history/daily?city=Emmen&start_date=2020-10-21&end_date=2020-10-25&key=${historicalApiKey}`;
+let Immutable = require('immutable');
 var request = require('request');
+var historicalData = [];
 
+// creating and pre setting a map for storing values per mounths 
 
 module.exports = {
     historicalData: function(app)
     {
+
         app.get('/HistoricalData', function(req, res) 
         {
-            
-
-            // Request for data using the URL
-            request(mainUrl, function(err, response, body) 
-            {
-                
-                // On return, check the json data fetched
-
-                if (err) 
-                {
-                    res.render('HistoricalData', { weather: null, error: 'Error, please try again' });
-                } 
-
-                else 
-                {
-                    
-                    let weather = JSON.parse(body);
-  
-         
-                    if (weather == undefined) 
-                    {
-                        //console.log("ana");
-                        res.render('HistoricalData', { weather: null, error: 'Error, please try again' });
-                    } 
-                    else
-                    {
-                        //loopThroughDays(weather);
-                       //console.log(weather.data[0].max_temp);
-                       //console.log(calculateDates()[0]);
-                       //createApiDatesQuerries(calculateDates());
-                       //res.render('HistoricalData',{ });
-                       
-                       
-                    }
-               
-                }
-            });
-
-            makeRequest(returnDatesForApi());
-
-            
-
-             
-
-
+            makeRequest(returnDatesForApi(),req,res);
 
         });
     }
 };
 
 
-// calculate the curent date, and  one year back
+
+// calculate the curent date, and  one year back from this date and store everything in one Array 
 function calculateDates()
 {
     var now = new Date();
@@ -78,42 +38,41 @@ function calculateDates()
 
 }
 
-function returnDatesForApi()
-{
-    return createApiDatesQuerries(calculateDates());
-}
 
 
 // in this API case, to retrive information for one year, the maximum number of days in one request is 7 days.
-// therefore in the querries array there will be 7 days  entries for the API; 
+// Therefore, the API call should have a start and end date for 7 days
+
 function createApiDatesQuerries()
 {
-    //console.log(daysOfYear);
+
+    // make pairs of dates, start - end, at same pozition in array
     var querries = {};
     querries.startDates = new Array();
     querries.endDates = new Array();
-    var startDate;
+
+    //calculate the dates
     var days = calculateDates();
-    //console.log(days.length);
+
     var numberDaysWeek = 0;
 
     for(i = 0; i < days.length; i++)
     {
-        //console.log(i);
+        // when 0 store the date, as startDate, and increment after 
         if(numberDaysWeek == 0 )
         {
             querries.startDates.push(conversion(days[i]));
             numberDaysWeek ++;
         }
+        // when 7, store the date, as endDate, and reset the days
         else if(numberDaysWeek == 7)
         {
-           // console.log(numberDaysWeek);
-           
+        
             querries.endDates.push(conversion(days[i]));
             numberDaysWeek = 0;
-            startDate = "";
 
         }
+        // just increment
         else
         {
         numberDaysWeek ++;
@@ -121,103 +80,183 @@ function createApiDatesQuerries()
       
        
     }
-    //console.log(querries.startDates);
+    
     return querries;
-
-   // console.log(startQuerries);
-  // console.log(stopQuerries[0]);
-  // console.log(convertYear(stopQuerries[0]));
-  // console.log(transformMounth(stopQuerries[0]));
-  // console.log(stopQuerries[0]);
-   //console.log(convertNumber(stopQuerries[0]));
-   //console.log(joinInformation(convertYear(startQuerries[0]),transformMounth(startQuerries[0]),convertNumber(startQuerries[0])));
-
 }
 
 
-function loopThroughDays(weather)
+// create an array with start and end dates, ready to be used in calling multiple requests on API
+function returnDatesForApi()
 {
-   // console.log("ana");
-   
-   var oneDay = {};
-   oneDay.temperatures = new Array();
-   oneDay.mounths = new Array();
+    return createApiDatesQuerries(calculateDates());
+}
+
+
+
+
+
+// retrive and store information per 7 days period
+function loopThroughDays(weather)
+{  
+   var oneWeek = {};
+   oneWeek.temperatures = new Array();
+   oneWeek.dates = new Array();
    for( i = 0; i < 7; i++)
    { 
-       console.log(weather.data[i].max_temp);
+      // console.log(weather.data[i].max_temp);
        
-      oneDay.temperatures.push(weather.data[i].max_temp);
-      oneDay.mounths.push(weather.data[i].datetime);
+      oneWeek.temperatures.push(parseInt(weather.data[i].max_temp));
+      oneWeek.dates.push(weather.data[i].datetime);
    }
 
-  // console.log(oneDay);
+  return oneWeek;
 }
 
-function structureData()
+
+// organize data per mounth with a map
+function structureData(oneWeek)
 {
 
+    let map = Immutable.Map({
+        Jan: [],
+        Feb: [],
+        Mar: [],
+        Apr: [],
+        May: [],
+        Jun: [],
+        Jul: [],
+        Aug: [],
+        Sep: [],
+        Oct: [],
+        Nov: [],
+        Dec: []
+    });
+    
 
+   
+   for(i = 0; i < oneWeek.dates.length; i++)
+   {
+  // console.log(map.get(helpOrganize(oneWeek.dates[i])));
+  //  console.log(oneWeek.temperatures[i]);
+     map.get(helpOrganize(oneWeek.dates[i])).push(oneWeek.temperatures[i]);
+      
+   }
 
+   return map;
 
+}
+
+function mergeMaps(map1,map2)
+{
+    var merged = new Map([map1,map2]);
+    console.log(merged);
+}
+
+function addMaps(map)
+{
+
+}
+// make average per every mounth 
+function chartInterpretation(data)
+{
+      var keys = Array.from(data.keys());
+     // console.log(keys);
+      var average;
+      
+      for( i = 0; i < keys.length; i++)
+      {
+         // console.log(data.get(keys[i]));
+          average = makeAverage(data.get(keys[i]));
+          data.set(keys[i],average);
+      }
 
 
 
 }
 
-function makeRequest(querries)
+
+
+function makeRequest(querries,req)
 {
-    
 
-    var information = {};
-    information.mounths = "";
-    information.temperatures = new Array();
-    //console.log(querries.startDates[0],querries.endDates[0]);
-    
-    var url ="";
-    for(i = 0; i <= querries.startDates.length - 2; i++)
-    {
+        let organizedTemperaturesMap = Immutable.Map({
+            Jan: [],
+            Feb: [],
+            Mar: [],
+            Apr: [],
+            May: [],
+            Jun: [],
+            Jul: [],
+            Aug: [],
+            Sep: [],
+            Oct: [],
+            Nov: [],
+            Dec: []
+        });
+
+        var increment;
         
-            //console.log(querries.endDates[i]);
-             
-             url = `https://api.weatherbit.io/v2.0/history/daily?city=${city}&start_date=${querries.startDates[i]}&end_date=${querries.endDates[i]}&key=${historicalApiKey}`;
-             console.log(url);
-            request(url, function(err, response, body) {
-                        
-                // On return, check the json data fetched
+        //console.log(querries.startDates[0],querries.endDates[0]);
+   
+       
+        var url ="";
+        for(i = 0; i <= querries.startDates.length - 2; i++)
+        {
 
-                if (err) 
+              
+            
+                //console.log(querries.endDates[i]);
+                
+                url = `https://api.weatherbit.io/v2.0/history/daily?city=${city}&start_date=${querries.startDates[i]}&end_date=${querries.endDates[i]}&key=${historicalApiKey}`;
+                // console.log(url);
+                request(url, function(err, response, body) 
                 {
-                    res.render('HistoricalData', { weather: null, error: 'Error, please try again' });
-                } 
 
-                else 
-                {
-                    //console.log(body);
-                    removeByteOrderMark(body);
-                   
-                    let weather = JSON.parse(body);
-
-                    
-
-                   // console.log(weather);
-
-        
-                    if (weather == undefined) 
+                    // On return, check the json data fetched
+                    if (err) 
                     {
-                        //console.log("ana");
                         res.render('HistoricalData', { weather: null, error: 'Error, please try again' });
                     } 
-                    else
-                    {
-                       // console.log(weather);
-                          loopThroughDays(weather);
-                    }
-            
-                }
-            });
 
-   }
-   
+                    else 
+                    {
+                        //console.log(body)
+                        let weather = JSON.parse(body);
+
+                        //console.log(weather);
+
+            
+                        if (weather == undefined) 
+                        {
+                            //console.log("ana");
+                            res.render('HistoricalData', { weather: null, error: 'Error, please try again' });
+                        } 
+                        else
+                        {
+                            var weeklyInfo = structureData(loopThroughDays(weather),organizedTemperaturesMap);
+                            console.log(organizedTemperaturesMap.merge(weeklyInfo).toJS().Oct);
+
+                            if( i ==  querries.startDates.length - 2)
+                            {
+                                res.render('HistoricalData',{increment:increment})
+                            }
+                            else
+                            {
+                            increment++;
+                            }
+                           
+                           
+                        }
+                
+                    }
+
+                    
+                });  
+
+         
+        }       
+
+        
 }
 
 
@@ -227,6 +266,11 @@ function makeRequest(querries)
 
 
 //functions required to work and convert dates in the api required format
+
+function reconvert(date)
+{
+   return date.slice(5,7);
+}
 
 function retriveDayNumber(date)
 {
@@ -256,7 +300,7 @@ function convertYear(date)
 
 function retriveMounth(date)
 {
-   var mounth = convertMounth(date.slice(3,6));
+   var mounth = convertMounthToNumber(date.slice(3,6));
    return mounth;
 }
 
@@ -297,12 +341,11 @@ function makeAverage(array)
     {
         average = average + array[i];
     }
-
-    return average;
+    return average/array.length;
 }
 
 
-function convertMounth(month)
+function convertMounthToNumber(month)
 {
     switch(month)
     {
@@ -346,9 +389,57 @@ function convertMounth(month)
     }
 }
 
+function helpOrganize(date)
+{
+   return convertMounthToLetters(reconvert(date));
+}
+
+function convertMounthToLetters(month)
+{
+    switch(month)
+    {
+        case "01":
+            return "Jan";
+        
+        case "02":
+             return "Feb";
+
+        case "03":
+             return "Mar";
+
+        case "04":
+             return "Apr";
+
+        case "05":
+             return "May";
+
+        case "06":
+             return "Jun";
+
+        case "07":
+             return "Jul";
+
+        case "08":
+             return "Aug";
+
+
+        case "09":
+             return "Sep";
+
+        case "10":
+             return "Oct";
+
+        case "11":
+             return "Nov";
+
+        case "12":
+             return "Dec";
+
+    }
+}
+
+
 function removeByteOrderMark(str)
 {
     return str.replace(/^\ufeff/g,"");
 }
-
-
