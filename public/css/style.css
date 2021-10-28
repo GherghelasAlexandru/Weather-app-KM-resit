@@ -152,7 +152,11 @@ body
 
 
 
+<<<<<<< Updated upstream
+.niceHistoricalButton
+=======
 .niceButton
+>>>>>>> Stashed changes
 {
   background-color: #e7e7e7; 
   font-size: 15px;
@@ -166,6 +170,34 @@ body
   margin-left: 45px;
 }
 
+<<<<<<< Updated upstream
+.niceForecastButton
+{
+  background-color: #e7e7e7; 
+  font-size: 15px;
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 2px solid #555555;
+  color: black;
+  margin-top:50px;
+  margin-bottom:50px;
+  margin: 0 auto;
+  margin-left: 45px;
+}
+
+.niceIndexButton
+{
+  background-color: #e7e7e7; 
+  font-size: 15px;
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 2px solid #555555;
+  color: black;
+  margin-top:50px;
+  margin-bottom:50px;
+  margin: 0 auto;
+  margin-left: 45px;
+=======
 
 .niceButton:hover {
   background-color: #555555;
@@ -189,9 +221,66 @@ body
   font-size: 24px;
   padding: 20px 0 20px 0;
   text-align: center;
+>>>>>>> Stashed changes
+}
+
+.niceIncommingAlarmsButton
+{
+  background-color: #e7e7e7; 
+  font-size: 15px;
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 2px solid #555555;
+  color: black;
+  margin-top:50px;
+  margin-bottom:50px;
+  margin: 0 auto;
+  margin-left: 45px;
+}
+
+<<<<<<< Updated upstream
+.niceIndexButton:hover 
+{
+  background-color: #555555;
+  color: white;
+}
+.niceForecastButton:hover 
+{
+  background-color: #555555;
+  color: white;
+}
+.niceHistoricalButton:hover
+ {
+  background-color: #555555;
+  color: white;
+}
+
+.niceAlarmsButton:hover
+{
+  background-color: #555555;
+  color: white;
+}
+.send
+{
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 300px;
+  margin-bottom: 40px;
 }
 
 
+.indexH
+{
+  text-align: center;
+  color: #4d4d4d;
+  font-size: 24px;
+  padding: 20px 0 20px 0;
+  text-align: center;
+}
+
+
+=======
+>>>>>>> Stashed changes
 .grid
 {
   text-align: center;
@@ -200,7 +289,11 @@ body
 .buttons
 {
    margin: 0 auto;
+<<<<<<< Updated upstream
+  
+=======
 
+>>>>>>> Stashed changes
 
 }
 
@@ -209,4 +302,13 @@ body
   text-align: center;
   margin-left: 100px;
   
+<<<<<<< Updated upstream
+}
+
+.forecast
+{
+  padding:2px;
+  list-style-type: none;
+=======
+>>>>>>> Stashed changes
 }

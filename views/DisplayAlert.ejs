@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <!-- Bootstrap CSS -->
     <!-- Use some bootstrap CSS and google fonts  -->
   
@@ -31,7 +31,7 @@
   <body>
     <!-- Main container -->
     <h3 class="DisplayH">Incomming Alarms</h3>
-   
+    <br>
     <div class="container">  
             <fieldset>
               
@@ -59,7 +59,7 @@
                         
 
              <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                  <div class="card-header">Precipitatio Temperature Alert</div>
+                  <div class="card-header">Precipitations Temperature Alert</div>
                       <div class="card-body text-dark">
                       <h5 class="card-title">Alarm:</h5>
                       <p class="card-text"><%= precipitationAlarmMessage  %></p>
@@ -67,11 +67,13 @@
              </div>
                           
         </div>
-     </fieldset>
-    <a href="/"><button>Home</button></a>
-    <a href="/WeatherForecast"><button>See Incomming Weather</button></a>
-    <a href="/HistoricalData"><button>See Historical Data</button></a>
-     </div>
+      </fieldset>
+      <br>
+      <div class="buttons">
+        <a href="/"><button class="niceIndexButton">Home</button></a>
+        <a href="/WeatherForecast"><button class="niceForecastButton">See Incomming Weather</button></a>
+        <a href="/HistoricalData"><button class="niceHistoricalButton">See Historical Data</button></a>
+      </div>
 
   </body>
 

@@ -9,6 +9,7 @@ const app = express();
 var currentTemperature;
 //var currentCity;
 const fs = require('fs');
+let city = "";
 
 //const hotAlarm = require('./Modules/HotAlarm2');
 const dailyAlarms = require('./Modules/DailyAlarms');
@@ -66,8 +67,19 @@ app.post('/login',(req,res,next)=>{
   res.render('login.ejs')
 })
 
+app.get('/GetLocation',function(request,response)
+{
+    console.log(location);
+    var location = city; 
+    response.json({location: location});
+     
+});
 
-app.post('/auth', function(request, response) {
+weatherForecast.setLocation(city);
+
+
+app.post('/auth', function(request, response) 
+{
 	var username = request.body.username;
   var password = request.body.password;
 	if (username && password) {
@@ -137,6 +149,8 @@ app.get("/", function (req, res) {
                     clouds = `${weather.clouds.all}`,
                     visibility = `${weather.visibility}`,
                     main = `${weather.weather[0].main}`,
+                    lon = `${weather.coord.lon}`,
+                    lat = `${weather.coord.lat}`,
                     weatherFahrenheit;
                     weatherFahrenheit = (weatherTemp * 9) / 5 + 32;
 
@@ -164,6 +178,8 @@ app.get("/", function (req, res) {
                     clouds: clouds,
                     visibility: visibility,
                     main: main,
+                    lat:lat,
+                    lon:lon,
                     error: null,
                   });
                   currentTemperature = parseInt(weatherTemp);
@@ -188,14 +204,15 @@ historicalData.historicalData(app);
 
 
 
-
 // process information when logged in 
 app.post('/', function(req, res) 
 {
 
     // Get city name passed in the form
 
-    let city = req.body.city;
+     city = req.body.city;
+
+   // weatherForecast.setLocation(city);
 
     // Use that city name to fetch data
   
@@ -213,8 +230,9 @@ app.post('/', function(req, res)
         else
          {
             let weather = JSON.parse(body);
+            console.log(weather.coord['lon']);
             // output it in the console just to make sure that the data being displayed is what I want
-            console.log(weather);
+            //console.log(weather);
 
             if (weather.main == undefined)
              {
@@ -223,7 +241,7 @@ app.post('/', function(req, res)
             else
              {
 
-                //use the data got to set up your output
+                //use the data got to set up output
                 let place = `${weather.name}, ${weather.sys.country}`,
                     /*  calculate the current timezone using the data fetched*/
                     weatherTimezone = `${new Date(
@@ -232,13 +250,15 @@ app.post('/', function(req, res)
 
                 let weatherTemp = `${weather.main.temp}`,
                     weatherPressure = `${weather.main.pressure}`,
-                    /* you will fetch the weather icon and its size using the icon data*/
+                    /* fetch the weather icon and its size using the icon data*/
                     weatherIcon = `http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`,
                     weatherDescription = `${weather.weather[0].description}`,
                     humidity = `${weather.main.humidity}`,
                     clouds = `${weather.clouds.all}`,
                     visibility = `${weather.visibility}`,
                     main = `${weather.weather[0].main}`,
+                    lon = `${weather.coord.lon}`,
+                    lat = `${weather.coord.lat}`,
                     weatherFahrenheit;
                     weatherFahrenheit = (weatherTemp * 9) / 5 + 32;
 
@@ -249,7 +269,7 @@ app.post('/', function(req, res)
                 }
                 weatherFahrenheit = roundToTwo(weatherFahrenheit);
 
-
+               
 
                 //render the data to your page (index.ejs) before displaying it out
                 res.render("index", {
@@ -265,14 +285,23 @@ app.post('/', function(req, res)
                     clouds: clouds,
                     visibility: visibility,
                     main: main,
+                    lat:lat,
+                    lon:lon,
                     error: null,
                    });
-          
+                   
+
 
               }
        
           }
      });
+
 });
 
+function parseInfo(out,callback)
+{
+
+}
+ 
 app.listen(5000);

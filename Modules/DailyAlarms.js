@@ -9,12 +9,17 @@ var city = 'Emmen';
 
 
 
+
+
+
+
+
 module.exports = {
     triggerAlarm: function(app)
     {
         //console.log(city)
         
-        app.get('/DisplayAlarm', function(req, res) 
+        app.get('/DisplayAlarm', function(req, res,next) 
         {
 
             // Use that city name to fetch data
@@ -102,10 +107,15 @@ module.exports = {
                         var rainAlarmMessage = 'No precipitations alarms';
                       }
       
-                    //render the data to alarm view (DisplayAlert.ejs) before displaying it out
-                    res.render("DisplayAlert.ejs", { hotAlarmMessage: hotAlertMessage, coldAlarmMessage: coldAlertMessage, precipitationAlarmMessage: rainAlarmMessage });
+                       //render the data to alarm view (DisplayAlert.ejs) before displaying it out
+                        setInterval(res.render("DisplayAlert.ejs", { hotAlarmMessage: hotAlertMessage, coldAlarmMessage: coldAlertMessage, precipitationAlarmMessage: rainAlarmMessage }),40,'lucky');
+                    
+<<<<<<< Updated upstream
+
+=======
                     
   
+>>>>>>> Stashed changes
                 }
                
               }

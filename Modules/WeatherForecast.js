@@ -1,30 +1,33 @@
 var request = require('request');
-var apiKey = 'ea17eb5501a9d76bed7c68dd09c044dd';
+var apiKey = '69715c23ad8f43308e6bed6f84fbf328';
 var city = 'Emmen';
-var lon = 6.8947;
-var lat = 52.7925;
-
-// one call API link based on lat and lon
-
-
-let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&units=metric&appid=${apiKey}`;
+//var lon =  ;
+//var lat = 52.7925;
+let url;
+let _location ="";
 
 
-module.exports = {
-    upcommingWeather: function(app)
+
+
+function setLocation(res,req)
+{
+   
+}
+
+ 
+
+ function makeForecastRequest(app)
     {
         app.get('/WeatherForecast', function(req, res) 
         {
 
             //Temperature Alert variable 
 
- 
-        
-           // console.log(city)
-           // console.log(url)
-
+            
+            let url = `https://api.weatherbit.io/v2.0/forecast/daily?city=${city}&key=${apiKey}`;
             // Request for data using the URL
-            request(url, function(err, response, body) {
+            request(url, function(err, response, body) 
+            {
                 
                 
                 // On return, check the json data fetched
@@ -47,15 +50,14 @@ module.exports = {
                     } 
                     else
                     {
-                       ///console.log(weather);
+                       
                        res.render('WeatherForecast',{ lowTemperatures: storeTemperatures("min",weather), highTemperatures: storeTemperatures("max",weather), windDirections:calculateWindDirection(weather),windSpeeds: retainWindSpeeds(weather)});
                     }
                
                 }
-          });
+            });
         });
     }
-};
 
 
 
@@ -65,9 +67,11 @@ module.exports = {
 {
    var windSpeeds = [];
 
-   for(i = 0; i < 7; i++)
+   for(i = 0; i < 10; i++)
    {
-       windSpeeds.push([AddDay(i),forecast.daily[i].wind_speed]);
+       console.log(forecast.data[i].datetime);
+       windSpeeds.push([forecast.data[i].datetime,forecast.data[i].wind_spd]);
+       //windSpeeds.push([AddDay(i),forecast.daily[i].wind_speed]);
    }
 
    
@@ -81,86 +85,86 @@ return windSpeeds;
 {
     var windDirections = [];
 
-    for(i = 0; i < 7; i++)
+    for(i = 0; i < 10 ; i++)
     {
         //console.log();
-        var windDegrees = forecast.daily[i].wind_deg;
+        var windDegrees = forecast.data[i].wind_dir;
 
             var j = (windDegrees + 11.25) % 360;
            // console.log(j);
             
                 if (j <=  22.5)
                 {
-                  windDirections.push([AddDay(i), 'N']);
+                  windDirections.push([forecast.data[i].datetime, 'N']);
                 }
                 else if (j <=  45  ) 
                 {
-                    windDirections.push([AddDay(i), "NNE"]);
+                    windDirections.push([forecast.data[i].datetime, "NNE"]);
                 }
                 else if (j <=  67.5) 
                 {
-                    windDirections.push([AddDay(i), "NE"]);
+                    windDirections.push([forecast.data[i].datetime, "NE"]);
                 }
                 else if (j <=  90  ) 
                 {
-                    windDirections.push([AddDay(i), "ENE"]);
+                    windDirections.push([forecast.data[i].datetime, "ENE"]);
                 }
                 else if (j <= 112.5) 
                 {
-                    windDirections.push([AddDay(i), "E"]);
+                    windDirections.push([forecast.data[i].datetime, "E"]);
                     
                 }
                 else if (j <= 135  )
                 {
-                    windDirections.push([AddDay(i), "ESE"]);
+                    windDirections.push([forecast.data[i].datetime, "ESE"]);
                 }
                 else if (j <= 157.5) 
                 {
-                    windDirections.push([AddDay(i), "SE"]);
+                    windDirections.push([forecast.data[i].datetime, "SE"]);
                 }
                 else if (j <= 180  ) 
                 {
-                    windDirections.push([AddDay(i), "SSE"]);
+                    windDirections.push([forecast.data[i].datetime, "SSE"]);
                 }
 
                 else if (j <= 202.5) 
                 {
-                    windDirections.push([AddDay(i), "S"]);
+                    windDirections.push([forecast.data[i].datetime, "S"]);
                 }
 
                 else if (j <= 225  )
                 {
-                    windDirections.push([AddDay(i), "SSW"]);
+                    windDirections.push([forecast.data[i].datetime, "SSW"]);
                 } 
 
                 else if (j <= 247.5) 
                 {
-                    windDirections.push([AddDay(i), "SW"]);
+                    windDirections.push([forecast.data[i].datetime, "SW"]);
                 }
 
                 else if (j <= 270  ) 
                 {
-                    windDirections.push([AddDay(i), "WSW"]);
+                    windDirections.push([forecast.data[i].datetime, "WSW"]);
                 }
 
                 else if (j <= 292.5) 
                 {
-                    windDirections.push([AddDay(i), "W"]);
+                    windDirections.push([forecast.data[i].datetime, "W"]);
                 }
 
                 else if (j <= 315  )
                 {
-                    windDirections.push([AddDay(i), "WNW"]);
+                    windDirections.push([forecast.data[i].datetime, "WNW"]);
                 } 
 
                 else if (j <= 337.5) 
                 {
-                    windDirections.push([AddDay(i), "NW"]);
+                    windDirections.push([forecast.data[i].datetime, "NW"]);
                 }
 
                 else
                 {
-                    windDirections.push([AddDay(i), "NNW"]);
+                    windDirections.push([forecast.data[i].datetime, "NNW"]);
                 }                 
  
 
@@ -174,20 +178,21 @@ return windSpeeds;
 // store the temperature for the next 7 days 
  function storeTemperatures(info,forecast)
 {
+    
     var temperatures = [];
     switch(info)
     {
         case "min":
-            for(i = 0; i < 7; i++)
+            for(i = 0; i < 10; i++)
             {
-                    temperatures.push( [AddDay(i),forecast.daily[i].temp['min']] );
+               temperatures.push( [forecast.data[i].datetime,forecast.data[i].low_temp] );
             } 
             break;
 
         case "max":
-            for(i = 0; i < 7; i++)
+            for(i = 0; i < 10; i++)
             {
-                    temperatures.push( [AddDay(i),forecast.daily[i].temp['max']] );
+               temperatures.push([forecast.data[i].datetime,forecast.data[i].max_temp]);
             } 
 
     }
@@ -226,6 +231,13 @@ return windSpeeds;
 }
 
 
+<<<<<<< Updated upstream
+
+module.exports.setLocation =setLocation;
+module.exports.upcommingWeather = makeForecastRequest;
+=======
+// for testing purpouses 
+>>>>>>> Stashed changes
 module.exports.AddDay = AddDay;
 module.exports.storeTemperatures = storeTemperatures;
 module.exports.calculateWindDirection = calculateWindDirection;

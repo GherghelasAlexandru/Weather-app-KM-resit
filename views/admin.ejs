@@ -9,6 +9,9 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
     <!-- Bootstrap CSS -->
     <!-- Use some bootstrap CSS and google fonts to quicken the process -->
     <!-- you shall also add a favicon -->
@@ -32,22 +35,24 @@
   </head>
 
   <body>
-    <h3>Logged in as admin</h3>
-    <h2>Plase choose a new location</h2>
+    
+    <h2 class="logInH">Please choose a new location</h2>
 <!-- Main container -->
-<div class="container">
+    <div class="container">
 
     <!-- This shall hold the input fields and the output data -->
     <fieldset>
       <!-- This form shall be used to fetch your city name -->
       <form action="/" method="post">
-        <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
+        <input name="city" type="text" class="ghost-input" style="text-align: center;" placeholder="Enter a City" required>
          <input type="submit" class="ghost-button" value="Change location"> 
       </form>
-  
-    <a href="/DisplayAlarm"><button>See Incomming Alarms</button></a>
-    <a href="/WeatherForecast"><button>See Incomming Weather</button></a>
-    <a href="/HistoricalData"><button>See Historical Data</button></a>
-    
+    <br>
+    <div class="buttons">
+    <a href="/DisplayAlarm"><button class="niceIncommingAlarmsButton">See Incomming Alarms</button></a>
+    <a href="/WeatherForecast"><button class="niceForecastButton">See Incomming Weather</button></a>
+    <a href="/HistoricalData"><button class="niceHistoricalButton">See Historical Data</button></a>
+    </div>   
+  </fieldset>
   </body>
 </html>

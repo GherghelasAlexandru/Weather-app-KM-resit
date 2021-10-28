@@ -5,6 +5,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+ 
+
+    <!--Jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- Bootstrap CSS -->
     <!-- Use some bootstrap CSS and google fonts  -->
@@ -30,7 +36,7 @@
 
   <body>
     <!-- Main container -->
-    <h3 class="DisplayH" style="padding-bottom:15px;">Weather Forecast For Seven Days</h3>
+    <h3 class="logInH" style="padding-bottom:15px;">Weather Forecast For The Next 10 Days</h3>
    
     <div class="container">  
             <fieldset>
@@ -39,24 +45,25 @@
         <div class="card-deck">
 
           <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-            <div class="card-header">Minimum Temperature</div>
+            <div class="card-header">Minimum Tem per Day</div>
             <div class="card-body text-dark">
-            <h5 class="card-title"> Next Week:</h5>
-            <ul>
+            <h5 class="card-title"> Next 10 Days:</h5>
+            <ul class = "forecast">
               <% for ( i = 0; i < lowTemperatures.length; i++) { %>
                 <li> <%= lowTemperatures[i] %> °C</li> 
+                
                  <% } %>
-            </ul>
+              </ul>
             </div>              
          </div>
            
                             
 
             <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                <div class="card-header">Maximum Temperature</div>
+                <div class="card-header">Maximum Tem per Day</div>
                 <div class="card-body text-dark">
-                <h5 class="card-title"> Next Week:</h5>
-                <ul>
+                <h5 class="card-title"> Next 10 Days:</h5>
+                <ul class = "forecast">
                   <% for ( i = 0; i < highTemperatures.length; i++) { %>
                     <li><%= highTemperatures[i] %> °C </li>
                      <% } %>
@@ -67,12 +74,12 @@
                         
 
              <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                  <div class="card-header">Wind Speed</div>
+                  <div class="card-header">Wind Speed per Day</div>
                       <div class="card-body text-dark">
-                      <h5 class="card-title">Average for seven days</h5>
-                      <ul>
+                      <h5 class="card-title">Next 10 days</h5>
+                      <ul class = "forecast">
                         <% for ( i = 0; i < windSpeeds.length; i++) { %>
-                          <li> <%= windSpeeds[i] %> m/s</li>
+                          <li> <%= windSpeeds[i] %>  m/s</li>
                            <% } %>
                       </ul>
                       
@@ -81,10 +88,10 @@
 
 
                <div class="card card-accent-dark mb-3" style="max-width: 18rem;">
-                <div class="card-header">Wind Direction</div>
+                <div class="card-header">Wind Direction per Day</div>
                 <div class="card-body text-dark">
-                <h5 class="card-title">Direction seven days:</h5>
-                <ul>
+                <h5 class="card-title">Next 10 days:</h5>
+                <ul class = "forecast">
                   <% for ( i = 0; i < windDirections.length; i++) { %>
                     <li> <%= windDirections[i] %></li>
                      <% } %>
@@ -94,10 +101,13 @@
                           
         </div>
      </fieldset>
-    <a href="/"><button>Home</button></a>
-    <a href="/DisplayAlarm"><button>See Incomming Alarms</button></a>
-    <a href="/HistoricalData"><button>See Historical Data</button></a>
-    
+     <br>
+
+    <div class="buttons"> 
+    <a href="/"><button class="niceIndexButton">Home</button></a>
+    <a href="/DisplayAlarm"><button class="niceForecastButton">See Incomming Alarms</button></a>
+    <a href="/HistoricalData"><button class="niceHistoricalButton">See Historical Data</button></a>
+    </div>
      </div>
 
   </body>

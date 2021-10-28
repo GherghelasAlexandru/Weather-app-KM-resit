@@ -432,6 +432,8 @@ function convertMounthToLetters(month)
 }
 
 
+
+// for testing purpouses 
 module.exports.helpOrganize = helpOrganize;
 module.exports.convertMounthToLetters = convertMounthToLetters;
 module.exports.convertMounthToNumber = convertMounthToNumber;
